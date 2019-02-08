@@ -10,44 +10,45 @@
  */
 public class Solution {
   List<Integer> list;
-  public List<Integer> preOrder(TreeNode root) {
+  public List<Integer> inOrder(TreeNode root) {
     // Write your solution here
     list = new ArrayList<>();
-    preOrderHelperIter(root);
+    helperIterative(root);
     
     return list;
   }
   
-  private void preOrderHelperIter(TreeNode root) {
+  private void helperIterative(TreeNode root) {
     if (root == null) {
       return;
-    }
+    }  
     
     Stack<TreeNode> stack = new Stack<>();
-    stack.push(root);
+    while (root != null) {
+      stack.push(root);
+      root = root.left;
+    }
     
     while (!stack.isEmpty()) {
       TreeNode popped = stack.pop();
       list.add(popped.key);
       
-      if (popped.right != null) {
-        stack.push(popped.right);
-      }
-      
-      if (popped.left != null) {
-        stack.push(popped.left);
+      popped = popped.right;
+      while (popped != null) {
+        stack.push(popped);
+        popped = popped.left;
       }
     }
   }
   
-  private void preOrderHelperRec(TreeNode root) {
+  private void helperRec(TreeNode root) {
     if (root == null) {
       return;
-    } 
+    }
     
+    helperRec(root.left);
     list.add(root.key);
-    preOrderHelperRec(root.left);
-    preOrderHelperRec(root.right);
+    helperRec(root.right);
   }
 }
 
